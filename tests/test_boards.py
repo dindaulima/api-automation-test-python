@@ -1,6 +1,8 @@
+import jsonschema
 import requests
 
 from config import TRELLO_API_KEY, TRELLO_BASE_URL
+from schemas import BOARD_SCHEMA
 
 
 # TC1 - Create board with valid name
@@ -16,6 +18,7 @@ def test_get_board_by_id(api_client, test_board):
 
     assert response.status_code == 200
     body = response.json()
+    jsonschema.validate(body, BOARD_SCHEMA)
     assert body["id"] == test_board["id"]
     assert body["name"] == test_board["name"]
 

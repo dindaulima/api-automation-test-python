@@ -1,3 +1,8 @@
+import jsonschema
+
+from schemas import LIST_SCHEMA
+
+
 #TC1 - Create a list on a valid board
 def test_create_list_on_a_valid_board(api_client, test_board, test_list):
     assert test_list["name"].startswith("pytest-list-")
@@ -16,7 +21,10 @@ def test_get_lists_for_board_includes_new_list(api_client, test_board, test_list
     response = api_client.get_lists_for_board(test_board["id"])
 
     assert response.status_code == 200
-    list_ids = [lst["id"] for lst in response.json()]
+    lists = response.json()
+    for lst in lists:
+        jsonschema.validate(lst, LIST_SCHEMA)
+    list_ids = [lst["id"] for lst in lists]
     assert test_list["id"] in list_ids
 
 

@@ -1,3 +1,8 @@
+import jsonschema
+
+from schemas import CARD_SCHEMA
+
+
 #TC1 - Create a card on a valid list
 def test_create_card_on_a_valid_list(api_client, test_list, test_card):
     assert test_card["name"].startswith("pytest-card-")
@@ -21,6 +26,7 @@ def test_get_card_by_id(api_client, test_card):
 
     assert response.status_code == 200
     body = response.json()
+    jsonschema.validate(body, CARD_SCHEMA)
     assert body["id"] == test_card["id"]
     assert body["name"] == test_card["name"]
 
