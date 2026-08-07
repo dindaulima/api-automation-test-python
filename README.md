@@ -22,7 +22,13 @@ API automation test suite for the [Trello API](https://developer.atlassian.com/c
 ├── clients/
 │   └── trello_client.py      # thin wrapper around the Trello REST API
 └── tests/
-    └── test_boards.py        # board create/get/update + negative cases
+    ├── test_boards.py        # board create/get/update + negative cases
+    ├── test_lists.py
+    ├── test_cards.py
+    ├── test_checklists.py
+    ├── test_negative_cases.py
+    ├── test_e2e.py            # end-to-end flow + cascading-delete
+    └── test_performances.py   # response-time threshold checks
 ```
 
 ## Setup
@@ -78,6 +84,8 @@ pytest tests/test_boards.py::test_create_board_with_valid_name
 |---|---|---|
 | Boards | `tests/test_boards.py` | 7 scenarios implemented |
 | Lists | `tests/test_lists.py` | 6 scenarios implemented |
-| Cards | `tests/test_cards.py` | 6 scenarios implemented |
-| Checklists | `tests/test_checklists.py` | review |
-| Negative/Auth | `tests/test_negative_cases.py` | planned |
+| Cards | `tests/test_cards.py` | 12 scenarios implemented |
+| Checklists | `tests/test_checklists.py` | 4 scenarios implemented |
+| Negative/Auth | `tests/test_negative_cases.py` | 6 scenarios implemented |
+| E2E/flow | `tests/test_e2e.py` | 2 scenarios implemented |
+| Performances | `tests/test_performances.py` | 3 scenarios implemented |
