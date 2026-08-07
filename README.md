@@ -76,8 +76,8 @@ pytest tests/test_boards.py::test_create_board_with_valid_name
 
 | Resource | File | Status |
 |---|---|---|
-| Boards | `tests/test_boards.py` | 5 scenarios implemented |
-| Lists | `tests/test_lists.py` | planned |
-| Cards | `tests/test_cards.py` | planned |
-| Checklists | `tests/test_checklists.py` | planned |
+| Boards | `tests/test_boards.py` | 7 scenarios implemented |
+| Lists | `tests/test_lists.py` | 6 scenarios implemented |
+| Cards | `tests/test_cards.py` | in progress |
+| Checklists | `tests/test_checklists.py` | in progress |
 | Negative/Auth | `tests/test_negative_cases.py` | planned |
