@@ -111,7 +111,7 @@ def test_add_comment_to_card(api_client, test_card):
     assert comment_text in comments
 
 
-#TC12 - Create card with invalid due date format → expect 400.
+#TC12 - Create card with invalid due date format →  400.
 def test_create_card_with_invalid_due_date_is_rejected(api_client, test_list):
     response = api_client.create_card(test_list["id"], name="pytest-card-bad-due", due="not-a-date")
 
