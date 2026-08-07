@@ -57,6 +57,28 @@ class TrelloClient:
     def delete_card(self, card_id):
         return self._request("DELETE", f"/cards/{card_id}")
 
+    def add_label_to_card(self, card_id, label_id):
+        return self._request("POST", f"/cards/{card_id}/idLabels", params={"value": label_id})
+
+    def add_member_to_card(self, card_id, member_id):
+        return self._request("POST", f"/cards/{card_id}/idMembers", params={"value": member_id})
+
+    def add_comment_to_card(self, card_id, text):
+        return self._request("POST", f"/cards/{card_id}/actions/comments", params={"text": text})
+
+    def get_card_actions(self, card_id, **params):
+        return self._request("GET", f"/cards/{card_id}/actions", params=params)
+
+    # --- Labels ---
+    def create_label(self, board_id, name, color, **extra_params):
+        return self._request(
+            "POST", "/labels", params={"idBoard": board_id, "name": name, "color": color, **extra_params}
+        )
+
+    # --- Members ---
+    def get_current_member(self):
+        return self._request("GET", "/members/me")
+
     # --- Checklists ---
     def create_checklist(self, card_id, name, **extra_params):
         return self._request(
@@ -67,3 +89,17 @@ class TrelloClient:
         return self._request(
             "POST", f"/checklists/{checklist_id}/checkItems", params={"name": name, **extra_params}
         )
+
+    def get_checklist(self, checklist_id):
+        return self._request("GET", f"/checklists/{checklist_id}")
+
+    def get_checklists_for_card(self, card_id):
+        return self._request("GET", f"/cards/{card_id}/checklists")
+
+    def update_checklist_item_state(self, card_id, checkitem_id, state):
+        return self._request(
+            "PUT", f"/cards/{card_id}/checkItem/{checkitem_id}", params={"state": state}
+        )
+
+    def delete_checklist(self, checklist_id):
+        return self._request("DELETE", f"/checklists/{checklist_id}")

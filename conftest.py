@@ -26,6 +26,16 @@ def test_board(api_client):
 @pytest.fixture
 def test_list(api_client, test_board):
     """Creates a list on top of test_board."""
-    response = api_client.create_list(test_board["id"], name="pytest-list")
+    list_name = f"pytest-list-{uuid.uuid4().hex[:8]}"
+    response = api_client.create_list(test_board["id"], name=list_name)
+    assert response.status_code == 200, f"Setup failed: {response.text}"
+    return response.json()
+
+
+@pytest.fixture
+def test_card(api_client, test_list):
+    """Creates a card on top of test_list."""
+    card_name = f"pytest-card-{uuid.uuid4().hex[:8]}"
+    response = api_client.create_card(test_list["id"], name=card_name)
     assert response.status_code == 200, f"Setup failed: {response.text}"
     return response.json()
