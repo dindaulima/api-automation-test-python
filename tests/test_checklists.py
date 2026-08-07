@@ -1,4 +1,4 @@
-#TC1 - Add a checklist to a card → verify created.
+#TC1 - Add a checklist to a card
 def test_add_checklist_to_card(api_client, test_card):
     response = api_client.create_checklist(test_card["id"], name="pytest-checklist")
 
@@ -8,7 +8,7 @@ def test_add_checklist_to_card(api_client, test_card):
     assert checklist["idCard"] == test_card["id"]
 
 
-#TC2 - Add checklist items → verify items appear with state: incomplete.
+#TC2 - Add checklist items
 def test_add_checklist_items(api_client, test_card):
     checklist = api_client.create_checklist(test_card["id"], name="pytest-checklist").json()
 
@@ -20,7 +20,7 @@ def test_add_checklist_items(api_client, test_card):
     assert item["state"] == "incomplete"
 
 
-#TC3 - Mark a checklist item complete → verify state change.
+#TC3 - Mark a checklist item complete
 def test_mark_checklist_item_complete(api_client, test_card):
     checklist = api_client.create_checklist(test_card["id"], name="pytest-checklist").json()
     item = api_client.add_checklist_item(checklist["id"], name="pytest-item").json()
@@ -33,7 +33,7 @@ def test_mark_checklist_item_complete(api_client, test_card):
     assert update_response.json()["state"] == "complete"
 
 
-#TC4 - Delete a checklist → verify removed from card.
+#TC4 - Delete a checklist
 def test_delete_checklist_removes_it_from_card(api_client, test_card):
     checklist = api_client.create_checklist(test_card["id"], name="pytest-checklist").json()
 
