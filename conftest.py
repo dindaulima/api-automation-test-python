@@ -1,8 +1,34 @@
+import logging
 import uuid
+from urllib.parse import urlsplit
 
 import pytest
+import requests
 
 from clients.trello_client import TrelloClient
+
+logger = logging.getLogger("perf")
+RESPONSE_TIME_THRESHOLD_MS = 1000
+
+
+@pytest.fixture(autouse=True)
+def assert_every_request_is_fast(monkeypatch):
+    """Wraps requests.request so every HTTP call in every test is timed and asserted."""
+    original_request = requests.request
+
+    def timed_request(method, url, *args, **kwargs):
+        response = original_request(method, url, *args, **kwargs)
+        elapsed_ms = response.elapsed.total_seconds() * 1000
+        redacted_url = urlsplit(url)._replace(query="").geturl()
+        logger.info("%s %s took %.0fms", method, redacted_url, elapsed_ms)
+
+        assert elapsed_ms < RESPONSE_TIME_THRESHOLD_MS, (
+            f"{method} {redacted_url} took {elapsed_ms:.0f}ms "
+            f"(threshold {RESPONSE_TIME_THRESHOLD_MS}ms)"
+        )
+        return response
+
+    monkeypatch.setattr(requests, "request", timed_request)
 
 
 @pytest.fixture(scope="session")
