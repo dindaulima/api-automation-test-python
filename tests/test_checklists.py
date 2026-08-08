@@ -1,9 +1,15 @@
+import jsonschema
+
+from schemas import CHECKLIST_SCHEMA
+
+
 #TC1 - Add a checklist to a card
 def test_add_checklist_to_card(api_client, test_card):
     response = api_client.create_checklist(test_card["id"], name="pytest-checklist")
 
     assert response.status_code == 200
     checklist = response.json()
+    jsonschema.validate(checklist, CHECKLIST_SCHEMA)
     assert checklist["name"] == "pytest-checklist"
     assert checklist["idCard"] == test_card["id"]
 
